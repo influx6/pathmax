@@ -1,6 +1,4 @@
 var sq = require("stackq");
-// var qs = require('queryString');
-var debug = require("debug")('pathmax');
 
 var block = /^:([\w\W]+)$/;
 var unblock = /^([\w\W]+)$/;
@@ -11,6 +9,7 @@ var bkHash = /\\+/;
 var mflat = {
   'lockHash': false,
   'noQuery': false,
+  'exactMatch': true,
   'validators':{},
   'params':{}
 };
@@ -36,6 +35,7 @@ module.exports = function(pattern,config){
     var state = true;
     if(confs.noQuery && vd.hasQuery) return false;
     if(confs.lockHash && vd.hasHash && vd.hwords.length != data.hwords.length) return false;
+    if(confs.exactMatch && data.splits.length != vd.splits.length) return false;
     sq.enums.each(data.splits,function(e,i,o,fn){
       if(vd.splits[i] == e) return fn(null);
       if(vd.splits[i] != e && block.test(e)){
