@@ -5,6 +5,7 @@ var unblock = /^([\w\W]+)$/;
 var hashed = /#([\w\W]+)/;
 var plusHash = /\/+/;
 var hashy = /#/;
+var openEnded = /\*$/;
 var bkHash = /\\+/;
 var mflat = {
   'lockHash': false,
@@ -15,10 +16,17 @@ var mflat = {
 };
 
 module.exports = function(pattern,config){
+  var pa = pattern,open = openEnded.test(pattern);
+  pattern = open ? pattern.replace('*','') : pattern;
+
   var confs = sq.Util.extends({},mflat,config);
+  confs.exactMatch = (!open ? true : false);
+
   var vaqs = {};
   var valids = sq.Util.extends({},sq.uriValidators,confs.validators);
   var data = sq.analyzeURI(pattern);
+  data.pattern = pa;
+  data.openEnded = open;
   var params = sq.enums.filter(data.splits,function(f){
     if(block.test(f)){
       var mb = f.match(block), id = mb[1], pid = confs.params[id];
@@ -27,6 +35,7 @@ module.exports = function(pattern,config){
     }
     return false;
   });
+
 
   var validateWith = function(mx,px){
     var vd = sq.analyzeURI(mx);
