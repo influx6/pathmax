@@ -20,7 +20,7 @@ module.exports = function(pattern,config){
   pattern = open ? pattern.replace('*','') : pattern;
 
   var confs = sq.Util.extends({},mflat,config);
-  confs.exactMatch = (!open ? true : false);
+  if(open) confs.exactMatch = true;
 
   var vaqs = {};
   var valids = sq.Util.extends({},sq.uriValidators,confs.validators);
