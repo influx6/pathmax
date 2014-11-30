@@ -75,6 +75,7 @@ module.exports = function(pattern,config){
       pam.state = validateWith(url,pam);
       pam.config = confs;
       pam.url = url;
+      pam.pattern = pattern;
       return pam;
     }
   }
