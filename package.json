@@ -1,6 +1,6 @@
 {
   "name": "pathmax",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "a pattern matching libray",
   "main": "./pathmax.js",
   "scripts": {
