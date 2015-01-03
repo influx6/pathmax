@@ -66,6 +66,7 @@ module.exports = function(pattern,config){
   };
 
   return {
+    conf: confs,
     scheme: data,
     validate: function(url,pam){
       return validateWith(url,pam);
